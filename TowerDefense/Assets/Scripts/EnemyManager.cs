@@ -13,10 +13,14 @@ public class EnemyManager : MonoBehaviour
 
     private float timer = 0;
 
+    private List<Enemy> enemyList = new List<Enemy>();
+
+    public static EnemyManager instance;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        instance = this;
     }
 
     // Update is called once per frame
@@ -31,6 +35,47 @@ public class EnemyManager : MonoBehaviour
             e.transform.position = path[0].transform.position;
             e.GetComponent<Enemy>().path = path;
             e.GetComponent<Enemy>().pathPosition = 0;
+            enemyList.Add(e.GetComponent<Enemy>());
         }
+
+        for (int i = enemyList.Count - 1; i >= 0; i--)
+        {
+            Enemy e = enemyList[i];
+            if (!e)
+            {
+                enemyList.Remove(e);
+            }
+        }
+    }
+
+    public Enemy GetClosest(Vector2 pos)
+    {
+        Enemy closest = null;
+        foreach (Enemy e in enemyList)
+        {
+            if (!closest)
+            {
+                closest = e;
+            }
+            else
+            {
+                if (Vector2.Distance(pos, e.gameObject.transform.position) < Vector2.Distance(closest.gameObject.transform.position, e.gameObject.transform.position))
+                {
+                    closest = e;
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    public Enemy GetClosest(Vector2 pos, float range)
+    {
+        Enemy closest = GetClosest(pos);
+        if (closest && Vector2.Distance(pos, closest.gameObject.transform.position) >= range)
+        {
+            closest = null;
+        }
+        return closest;
     }
 }

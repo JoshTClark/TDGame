@@ -9,12 +9,23 @@ public class Tower : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Aim();
+    }
+
+    private void Aim()
+    {
+        Enemy target = EnemyManager.instance.GetClosest(this.gameObject.transform.position, range);
+        if (target)
+        {
+            Vector3 rot = target.gameObject.transform.position - this.gameObject.transform.position;
+            rot.Normalize();
+            this.transform.right = rot;
+        }
     }
 }

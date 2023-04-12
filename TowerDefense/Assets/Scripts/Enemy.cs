@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float hp = 2f;
+    private float hp = 2f;
+    public float maxHp = 2f;
     public float speed = 1.5f;
-    private float speedReductionMagicNumber = 1000;
     public float nodeRange = 0.1f;
 
     [HideInInspector]
     public GameObject[] path;
     [HideInInspector]
     public int pathPosition;
+
+    [SerializeField]
+    private GameObject healthBar;
+
+    private void Start()
+    {
+        hp = maxHp/2;
+    }
 
     void Update()
     {
@@ -21,7 +29,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        this.transform.position += GetDirectionVectorNormalized(path[pathPosition + 1]) * speed / speedReductionMagicNumber;
+        this.transform.position += GetDirectionVectorNormalized(path[pathPosition + 1]) * speed * Time.deltaTime;
         if (GetDistance(path[pathPosition + 1]) <= nodeRange)
         {
             pathPosition++;
@@ -30,6 +38,8 @@ public class Enemy : MonoBehaviour
                 pathPosition--;
             }
         }
+
+        healthBar.transform.localScale = new Vector3(hp / maxHp, healthBar.transform.localScale.y, healthBar.transform.localScale.z);
     }
 
     Vector3 GetDirectionVectorNormalized(GameObject target)
