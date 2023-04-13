@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        hp = maxHp/2;
+        hp = maxHp;
     }
 
     void Update()
@@ -54,5 +54,10 @@ public class Enemy : MonoBehaviour
         Vector3 distanceVector = target.transform.position - gameObject.transform.position;
         float distance = distanceVector.magnitude;
         return distance;
+    }
+
+    public void Damage(float amountOfDamage)
+    {
+        hp -= amountOfDamage;
     }
 }
