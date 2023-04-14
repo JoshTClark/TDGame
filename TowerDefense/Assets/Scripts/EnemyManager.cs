@@ -59,7 +59,7 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                if (Vector2.Distance(pos, e.gameObject.transform.position) < Vector2.Distance(closest.gameObject.transform.position, e.gameObject.transform.position))
+                if (Vector2.Distance(pos, e.gameObject.transform.position) < Vector2.Distance(closest.gameObject.transform.position, pos))
                 {
                     closest = e;
                 }
