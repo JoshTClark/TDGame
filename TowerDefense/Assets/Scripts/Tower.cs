@@ -4,23 +4,42 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    public bool isTowerActive;
     public float range = 5f;
     public float damage = 1f;
 
     public float fireCooldown_s = 2.0f;
     private float activeFireCoolDown;
+    public bool showRangeIndicator = false;
+    public GameObject rangeIndicator;
 
-    void Start()
+    void Start() 
     {
         activeFireCoolDown = 0.0f;
+        rangeIndicator.transform.localScale = new Vector3(range*2, range*2, 1f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Aim();
-
         activeFireCoolDown += Time.deltaTime;
+        if (isTowerActive)
+        {
+            Aim();
+            activeFireCoolDown += Time.deltaTime;
+        }
+        else
+        {
+        }
+
+        if (showRangeIndicator)
+        {
+            rangeIndicator.SetActive(true);
+        }
+        else
+        {
+            rangeIndicator.SetActive(false);
+        }
     }
 
     private void Aim()
