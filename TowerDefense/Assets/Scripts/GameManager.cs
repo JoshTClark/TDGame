@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
                 selectedTower = null;
                 placingTower = false;
             }
+            else
+            {
+            }
         };
     }
 
