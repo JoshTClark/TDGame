@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,9 +16,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private InputActionReference select, deselect;
 
+    [SerializeField]
+    private TMP_Text moneyLabel;
+    [SerializeField]
+    private TMP_Text healthLabel;
+
     private ActionState state = ActionState.None;
     private Tower selectedTower = null;
     private bool canPlaceTower = false;
+
+    private int health = 10;
+
+    [HideInInspector]
+    public int money;
+    private int towerCost = 10;
 
     void Start()
     {
@@ -26,15 +38,25 @@ public class GameManager : MonoBehaviour
 
         deselect.action.Enable();
         deselect.action.performed += DeselctAction;
+
+        money = 20;
+    }
+
+    public void DealPlayerDamage(int p_Damage) {
+        health -= p_Damage;
     }
 
     public void BuyTower()
     {
+        if (money < towerCost) {
+            return;
+        }
         state = ActionState.PlacingTower;
         Tower tower = GameObject.Instantiate<Tower>(Resources.Load<Tower>("Prefabs/Tower"));
         tower.isTowerActive = false;
         tower.showRangeIndicator = true;
         selectedTower = tower;
+        money -= towerCost;
     }
 
     private void Update()
@@ -68,6 +90,9 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
+
+        moneyLabel.text = "Money: " + money;
+        healthLabel.text = "Health: " + health;
     }
 
     private void SelectAction(InputAction.CallbackContext context)

@@ -33,9 +33,10 @@ public class Enemy : MonoBehaviour
         if (GetDistance(path[pathPosition + 1]) <= nodeRange)
         {
             pathPosition++;
-            if (pathPosition == path.Length)
+            if (pathPosition >= path.Length - 1)
             {
-                pathPosition--;
+                GameObject.Find("GameManager").GetComponent<GameManager>().DealPlayerDamage(1);
+                this.hp = 0;
             }
         }
 
