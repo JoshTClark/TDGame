@@ -12,6 +12,8 @@ public class EnemyManager : MonoBehaviour
     public GameObject[] path;
 
     private float timer = 0;
+    private float spacingTimer = 0;
+    private float globalTime = 0;
 
     private List<Enemy> enemyList = new List<Enemy>();
 
@@ -27,6 +29,7 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
+        globalTime += Time.deltaTime;
 
         if (timer >= enemyInterval_s)
         {
@@ -35,6 +38,7 @@ public class EnemyManager : MonoBehaviour
             e.transform.position = path[0].transform.position;
             e.GetComponent<Enemy>().path = path;
             e.GetComponent<Enemy>().pathPosition = 0;
+            
             enemyList.Add(e.GetComponent<Enemy>());
         }
 
