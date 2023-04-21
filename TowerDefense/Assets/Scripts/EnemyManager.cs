@@ -13,7 +13,10 @@ public class EnemyManager : MonoBehaviour
 
     private float timer = 0;
     private float spacingTimer = 0;
+    private float spacingTime = 0.2f;
     private float globalTime = 0;
+    private int numToSpawn = 1;
+    private bool spawnWave = false;
 
     private List<Enemy> enemyList = new List<Enemy>();
 
@@ -30,16 +33,33 @@ public class EnemyManager : MonoBehaviour
     {
         timer += Time.deltaTime;
         globalTime += Time.deltaTime;
+        spacingTimer += Time.deltaTime;
 
-        if (timer >= enemyInterval_s)
+        if (timer >= enemyInterval_s && !spawnWave)
         {
-            timer = 0;
+            spawnWave = true;
+            numToSpawn = (int)Random.Range(Mathf.Max(globalTime / 10, 1f), Mathf.Max(globalTime / 10 * 1.25f, 1f));
+            spacingTime = Random.Range(0.2f, Mathf.Min(1f, 60 / globalTime));
+        }
+
+        if (spawnWave && spacingTimer >= spacingTime)
+        {
+            spacingTimer = 0;
+            numToSpawn--;
             GameObject e = Instantiate(testEnemyPrefab);
             e.transform.position = path[0].transform.position;
             e.GetComponent<Enemy>().path = path;
+            e.gameObject.GetComponent<Enemy>().maxHp *= Mathf.Max(globalTime / 120 + 1, 1f);
+            e.gameObject.GetComponent<Enemy>().speed *= Mathf.Max(globalTime / 60, 1f);
             e.GetComponent<Enemy>().pathPosition = 0;
-            
+
             enemyList.Add(e.GetComponent<Enemy>());
+
+            if (numToSpawn <= 0)
+            {
+                spawnWave = false;
+                timer = 0;
+            }
         }
 
         for (int i = enemyList.Count - 1; i >= 0; i--)
