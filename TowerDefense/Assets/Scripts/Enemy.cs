@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
         if(hp <= 0)
         {
             Destroy(gameObject);
+            GameObject.Find("GameManager").GetComponent<GameManager>().GiveMoney(1);
         }
 
         this.transform.position += GetDirectionVectorNormalized(path[pathPosition + 1]) * speed * Time.deltaTime;

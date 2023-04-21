@@ -46,6 +46,10 @@ public class GameManager : MonoBehaviour
         health -= p_Damage;
     }
 
+    public void GiveMoney(int p_Money) {
+        money += p_Money;
+    }
+
     public void BuyTower()
     {
         if (money < towerCost) {
