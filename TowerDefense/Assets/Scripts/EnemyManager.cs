@@ -93,6 +93,21 @@ public class EnemyManager : MonoBehaviour
         return closest;
     }
 
+    public Enemy GetFirst(Vector2 pos, float range)
+    {
+        Enemy closest = null;
+        foreach (Enemy e in enemyList)
+        {
+            if (Vector2.Distance(e.transform.position, pos) <= range)
+            {
+                closest = e;
+                return closest;
+            }
+        }
+
+        return closest;
+    }
+
     public Enemy GetClosest(Vector2 pos, float range)
     {
         Enemy closest = GetClosest(pos);

@@ -42,17 +42,20 @@ public class GameManager : MonoBehaviour
         money = 20;
     }
 
-    public void DealPlayerDamage(int p_Damage) {
+    public void DealPlayerDamage(int p_Damage)
+    {
         health -= p_Damage;
     }
 
-    public void GiveMoney(int p_Money) {
+    public void GiveMoney(int p_Money)
+    {
         money += p_Money;
     }
 
     public void BuyTower()
     {
-        if (money < towerCost) {
+        if (money < towerCost)
+        {
             return;
         }
         state = ActionState.PlacingTower;
@@ -80,7 +83,7 @@ public class GameManager : MonoBehaviour
                         selectedTower.rangeIndicator.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.3f);
                         canPlaceTower = false;
                     }
-                    else 
+                    else
                     {
                         selectedTower.rangeIndicator.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
                         canPlaceTower = true;
@@ -141,6 +144,11 @@ public class GameManager : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        if (selectedTower)
+        {
+            selectedTower.showRangeIndicator = false;
+        }
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 10f, LayerMask.GetMask("Tower"));
         if (hit.collider != null)

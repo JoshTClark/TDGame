@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
     public float speed = 1.5f;
     public float nodeRange = 0.1f;
 
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
     [HideInInspector]
     public GameObject[] path;
     [HideInInspector]
@@ -30,14 +33,18 @@ public class Enemy : MonoBehaviour
             GameObject.Find("GameManager").GetComponent<GameManager>().GiveMoney(1);
         }
 
-        this.transform.position += GetDirectionVectorNormalized(path[pathPosition + 1]) * speed * Time.deltaTime;
-        if (GetDistance(path[pathPosition + 1]) <= nodeRange)
+        if (pathPosition + 1 < path.Length)
         {
-            pathPosition++;
-            if (pathPosition >= path.Length - 1)
+            this.transform.position += GetDirectionVectorNormalized(path[pathPosition + 1]) * speed * Time.deltaTime;
+            spriteRenderer.gameObject.transform.right = GetDirectionVectorNormalized(path[pathPosition + 1]);
+            if (GetDistance(path[pathPosition + 1]) <= nodeRange)
             {
-                GameObject.Find("GameManager").GetComponent<GameManager>().DealPlayerDamage(1);
-                this.hp = 0;
+                pathPosition++;
+                if (pathPosition >= path.Length - 1)
+                {
+                    GameObject.Find("GameManager").GetComponent<GameManager>().DealPlayerDamage(1);
+                    this.hp = 0;
+                }
             }
         }
 

@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Tower
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2778654867
+    locked: 0
+  - name: Effects
+    uniqueID: 1774715147
     locked: 0
