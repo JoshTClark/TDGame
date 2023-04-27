@@ -65,11 +65,13 @@ public class Tower : MonoBehaviour
         //temp: it is autohit right now
         RaycastHit2D hit = Physics2D.Raycast(this.gameObject.transform.position, this.transform.right, 20f, LayerMask.GetMask("Enemy"));
         GameObject lineHit = new GameObject("Raycast");
+        lineHit.transform.parent = gameObject.transform;
+        lineHit.AddComponent<RaycastController>();
         LineRenderer renderer = lineHit.AddComponent<LineRenderer>();
         renderer.startColor = Color.white;
         renderer.endColor = Color.white;
-        renderer.startWidth = 0.25f;
-        renderer.endWidth = 0.25f;
+        renderer.startWidth = 0.15f;
+        renderer.endWidth = 0.15f;
         Vector3[] positions = new Vector3[2];
         positions[0] = this.gameObject.transform.position;
         positions[1] = hit.point;
