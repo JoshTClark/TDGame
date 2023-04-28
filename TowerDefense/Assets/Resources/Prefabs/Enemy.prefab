@@ -216,8 +216,8 @@ Transform:
   m_GameObject: {fileID: 1779798790030335015}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.6666666}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2732485029432043508}
   - {fileID: 6961972462090754528}
@@ -239,6 +239,7 @@ MonoBehaviour:
   maxHp: 2
   speed: 1.5
   nodeRange: 0.1
+  worth: 1
   spriteRenderer: {fileID: 2358010976477869647}
   path: []
   pathPosition: 0

@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public float maxHp = 2f;
     public float speed = 1.5f;
     public float nodeRange = 0.1f;
+    public float worth = 1f;
+    public float distanceTraveled = 0f;
 
     [SerializeField]
     private SpriteRenderer spriteRenderer;
@@ -27,15 +29,17 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if(hp <= 0)
+        if (hp <= 0)
         {
             Destroy(gameObject);
-            GameObject.Find("GameManager").GetComponent<GameManager>().GiveMoney(1);
+            GameObject.Find("GameManager").GetComponent<GameManager>().GiveMoney(worth);
         }
 
         if (pathPosition + 1 < path.Length)
         {
             this.transform.position += GetDirectionVectorNormalized(path[pathPosition + 1]) * speed * Time.deltaTime;
+            distanceTraveled += (GetDirectionVectorNormalized(path[pathPosition + 1]) * speed * Time.deltaTime).magnitude;
+
             spriteRenderer.gameObject.transform.right = GetDirectionVectorNormalized(path[pathPosition + 1]);
             if (GetDistance(path[pathPosition + 1]) <= nodeRange)
             {
@@ -68,5 +72,22 @@ public class Enemy : MonoBehaviour
     public void Damage(float amountOfDamage)
     {
         hp -= amountOfDamage;
+    }
+
+    public void SetColorAndSize(EnemyManager.Wave.EnemyType type)
+    {
+        switch (type) {
+            case EnemyManager.Wave.EnemyType.Fast:
+                spriteRenderer.color = new Color(0f, 1f, 1f, 1f);
+                break;
+            case EnemyManager.Wave.EnemyType.Big:
+                spriteRenderer.color = new Color(0f, 1f, 0.5f, 1f);
+                this.gameObject.transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+                break;
+            case EnemyManager.Wave.EnemyType.Biggest:
+                spriteRenderer.color = new Color(1f, 0f, 1f, 1f);
+                this.gameObject.transform.localScale = new Vector3(2f, 2f, 1f);
+                break;
+        }
     }
 }
